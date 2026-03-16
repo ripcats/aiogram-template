@@ -1,0 +1,61 @@
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    restart: unless-stopped
+    env_file:
+      - path: .env.example
+        required: false
+      - path: .env
+        required: false
+    ports:
+      - "${server_port:-8080}:8080"
+    volumes:
+      - .:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - bot_net
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${postgres_user:-bot}
+      POSTGRES_PASSWORD: ${postgres_password:-botpass}
+      POSTGRES_DB: ${postgres_db:-botdb}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${postgres_user:-bot}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - bot_net
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - bot_net
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  bot_net:
+    driver: bridge

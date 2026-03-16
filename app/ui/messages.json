@@ -1,0 +1,57 @@
+{
+  "_comment": "Все тексты бота. Редактируй здесь — не трогай хэндлеры.",
+
+  "common": {
+    "start": {
+      "welcome": "👋 Привет, <b>{full_name}</b>!\n\nЭто бот на <b>aiogram 3</b> + <b>Clean Architecture</b>.\n\nИспользуй /help для списка команд."
+    },
+    "help": {
+      "text": "📋 <b>Доступные команды:</b>\n\n/start — главное меню\n/help — эта справка"
+    },
+    "errors": {
+      "unknown": "⚠️ Произошла ошибка, мы уже работаем над ней. Попробуй позже.",
+      "rate_limit": "⏳ Слишком много запросов. Подожди немного и попробуй снова.",
+      "banned": "🚫 Ты заблокирован в этом боте.\n\nЕсли считаешь это ошибкой — обратись к администратору."
+    }
+  },
+
+  "owner": {
+    "panel": {
+      "title": "⚙️ <b>Панель управления</b>",
+      "subtitle": "Управление пользователями бота.",
+      "users_list_title": "👥 <b>Пользователи</b>",
+      "users_list_empty": "📭 Пользователей пока нет.",
+      "user_info": "👤 <b>Пользователь</b>\n\n🆔 ID: <code>{telegram_id}</code>\nИмя: {full_name}\nUsername: {mention}\nСтатус: {status}",
+      "user_status_active": "✅ Активен",
+      "user_status_banned": "🚫 Заблокирован",
+      "ban_success": "🚫 Пользователь <code>{telegram_id}</code> заблокирован.",
+      "unban_success": "✅ Пользователь <code>{telegram_id}</code> разблокирован.",
+      "ban_already": "⚠️ Пользователь уже заблокирован.",
+      "unban_already": "⚠️ Пользователь не заблокирован.",
+      "owner_ban_forbidden": "Владельца нельзя заблокировать.",
+      "user_not_found": "❌ Пользователь не найден.",
+      "access_denied": "🔒 Доступ запрещён."
+    }
+  },
+
+  "buttons": {
+    "panel_open": "Открыть панель",
+    "users_list": "Пользователи",
+    "user_ban": "Заблокировать",
+    "user_unban": "Разблокировать",
+    "back": "« Назад",
+    "close": "Закрыть",
+    "confirm_yes": "Да",
+    "confirm_no": "Нет",
+    "refresh": "Обновить"
+  },
+
+  "callback_answers": {
+    "panel_opened": "Панель открыта",
+    "action_banned": "Пользователь заблокирован",
+    "action_unbanned": "Пользователь разблокирован",
+    "action_denied": "Нет доступа",
+    "action_not_found": "Пользователь не найден",
+    "refreshed": "Список обновлён"
+  }
+}
