@@ -5,10 +5,8 @@ services:
       dockerfile: docker/Dockerfile
     restart: unless-stopped
     env_file:
-      - path: .env.example
-        required: false
       - path: .env
-        required: false
+        required: true
     ports:
       - "${server_port:-8080}:8080"
     volumes:
