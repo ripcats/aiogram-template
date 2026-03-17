@@ -11,6 +11,9 @@
 [![Redis](https://img.shields.io/badge/Redis-8--alpine-dc382d.svg)](https://redis.io/)
 [![Dishka](https://img.shields.io/badge/Dishka-DI-1f6feb.svg)](https://github.com/reagento/dishka)
 [![Docker](https://img.shields.io/badge/docker-compose-2496ed.svg)](https://www.docker.com/)
+[![Clean Architecture](https://img.shields.io/badge/architecture-clean-111827.svg)](#структура)
+[![Layered](https://img.shields.io/badge/structure-layered-0f766e.svg)](#структура)
+[![Template](https://img.shields.io/badge/template-github-f59e0b.svg)](#использование-как-github-template)
 [![License](https://img.shields.io/badge/license-MIT-black.svg)](./LICENSE)
 
 > Минимум лишнего. Нормальная база для реального бота.
@@ -42,6 +45,31 @@ make logs
 ```
 
 Склонировал → заполнил `.env` → поднял стек → начал писать логику.
+
+---
+
+## Инициализация шаблона
+
+Если хочешь быстро подогнать template под новый проект, запусти:
+
+```bash
+python init.py
+```
+
+Скрипт спросит:
+
+1. название проекта
+2. версию проекта
+3. режим `bot_mode` для `.env`
+4. нужен ли `aiogram-dialog`
+
+Если `.env` ещё нет, `init.py` сначала создаст его из `.env.example`, а потом внесёт изменения.
+
+Для `bot_mode=prod` эти поля будут добавлены в `.env` значениями из `.env.example`.
+
+Для `bot_mode=dev` `init.py` ничего из `.env` не удаляет.
+
+Если `aiogram-dialog` не нужен, `init.py` сам запустит нужный скрипт удаления по текущей ОС.
 
 ---
 

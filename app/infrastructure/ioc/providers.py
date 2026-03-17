@@ -8,6 +8,7 @@ from app.application.interfaces.cache import ICacheService
 from app.application.services.ban_cache import BanCacheService
 from app.application.use_cases.manage_users import (
     BanUserUseCase,
+    GetUserUseCase,
     GetUsersListUseCase,
     UnbanUserUseCase,
 )
@@ -91,6 +92,10 @@ class UseCaseProvider(Provider):
     @provide
     def get_users_list(self, repo: IUserRepository) -> GetUsersListUseCase:
         return GetUsersListUseCase(repo)
+
+    @provide
+    def get_user(self, repo: IUserRepository) -> GetUserUseCase:
+        return GetUserUseCase(repo)
 
     @provide
     def ban_user(self, repo: IUserRepository, ban_cache: BanCacheService) -> BanUserUseCase:

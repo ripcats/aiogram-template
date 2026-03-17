@@ -40,12 +40,11 @@ remove_dialog_files() {
 update_readme() {
     file_path="$ROOT_DIR/README.md"
     awk '
-        /Если `aiogram-dialog` не нужен, просто запусти:/ {
-            print "Если `aiogram-dialog` не нужен, просто запусти `./dialog_rem.sh`."
-            skip=1
-            next
-        }
-        skip && /^## / { skip=0; print; next }
+        /aiogram-dialog/ { next }
+        /dialog_rem\.sh/ { next }
+        /dialog_rem\.ps1/ { next }
+        /^## Удаление aiogram-dialog$/ { skip=1; next }
+        skip && /^---$/ { skip=0; next }
         !skip { print }
     ' "$file_path" | replace_file "$file_path"
 }

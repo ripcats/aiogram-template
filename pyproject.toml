@@ -23,6 +23,7 @@ dependencies = [
     "structlog>=25.5.0",
     "rich>=14.3.3",
     "orjson>=3.11.7",
+    "inquirerpy>=0.3.4",
 ]
 
 [project.optional-dependencies]

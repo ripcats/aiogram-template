@@ -56,8 +56,9 @@ def test_dialog_rem_script_removes_aiogram_dialog_artifacts(tmp_path: Path) -> N
     assert "setup_dialogs(dp)" not in main_text
     assert "aiogram_dialog" not in logging_text
     assert not (project_copy / "app/presentation/dialogs").exists()
-    assert "Если `aiogram-dialog` не нужен, просто запусти `./dialog_rem.sh`." in readme_text
-    assert "- startup-подключение из `app/main.py`" not in readme_text
+    assert "aiogram-dialog" not in readme_text
+    assert "dialog_rem.sh" not in readme_text
+    assert "dialog_rem.ps1" not in readme_text
     assert "from aiogram import Bot, Dispatcher" in main_text
 
 

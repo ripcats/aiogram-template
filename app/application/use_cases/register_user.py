@@ -11,7 +11,7 @@ class RegisterUserUseCase:
         self._repo = user_repo
 
     async def execute(self, dto: RegisterUserDTO) -> UserResponseDTO:
-        existing = await self._repo.get_by_telegram_id(dto.telegram_id)
+        existing = await self._repo.get_user(dto.telegram_id)
         if existing is not None:
             logger.debug("user.exists", telegram_id=dto.telegram_id)
             return _to_response(existing)
@@ -23,7 +23,7 @@ class RegisterUserUseCase:
             last_name=dto.last_name,
             is_bot=dto.is_bot,
         )
-        saved = await self._repo.save(user)
+        saved = await self._repo.save_user(user)
         logger.info("user.registered", telegram_id=saved.telegram_id)
         return _to_response(saved)
 

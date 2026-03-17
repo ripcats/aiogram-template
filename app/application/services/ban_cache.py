@@ -17,7 +17,7 @@ class BanCacheService:
             await self._refresh_ttl_if_needed(key)
             return cached
 
-        user = await self._user_repo.get_by_telegram_id(telegram_id)
+        user = await self._user_repo.get_user(telegram_id)
         is_banned = bool(user and user.is_banned)
         await self._cache.set(
             key,

@@ -63,25 +63,37 @@ function Remove-DialogFiles {
 
 function Update-Readme {
     $filePath = Join-Path $RootDir "README.md"
-    $content = Get-Content -Path $filePath -Raw
-    $pattern = "Если ``aiogram-dialog`` не нужен, просто запусти:[\s\S]*?## Как расширять"
-    $replacement = @"
-Если `aiogram-dialog` не нужен, просто запусти:
+    $lines = Get-Content -Path $filePath
+    $filtered = @()
+    $skip = $false
 
-```sh
-./dialog_rem.sh
-```
+    foreach ($line in $lines) {
+        if ($line -eq "## Удаление aiogram-dialog") {
+            $skip = $true
+            continue
+        }
 
-Для Windows:
+        if ($skip -and $line -eq "---") {
+            $skip = $false
+            continue
+        }
 
-```powershell
-./dialog_rem.ps1
-```
+        if ($skip) {
+            continue
+        }
 
-## Как расширять
-"@
-    $content = [System.Text.RegularExpressions.Regex]::Replace($content, $pattern, $replacement)
-    Replace-FileContent -FilePath $filePath -Content $content
+        if (
+            $line.Contains("aiogram-dialog") -or
+            $line.Contains("dialog_rem.sh") -or
+            $line.Contains("dialog_rem.ps1")
+        ) {
+            continue
+        }
+
+        $filtered += $line
+    }
+
+    Replace-FileContent -FilePath $filePath -Content (($filtered -join "`n") + "`n")
 }
 
 Remove-Dependency

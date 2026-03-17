@@ -32,26 +32,26 @@ class TestRegisterUserUseCase:
     async def test_new_user_is_saved(
         self, use_case: RegisterUserUseCase, repo: AsyncMock, dto: RegisterUserDTO
     ) -> None:
-        repo.get_by_telegram_id.return_value = None
-        repo.save.return_value = User(
+        repo.get_user.return_value = None
+        repo.save_user.return_value = User(
             telegram_id=dto.telegram_id,
             username=dto.username,
             first_name=dto.first_name,
             last_name=dto.last_name,
         )
         result = await use_case.execute(dto)
-        repo.save.assert_awaited_once()
+        repo.save_user.assert_awaited_once()
         assert result.telegram_id == dto.telegram_id
 
     async def test_existing_user_not_saved_again(
         self, use_case: RegisterUserUseCase, repo: AsyncMock, dto: RegisterUserDTO
     ) -> None:
-        repo.get_by_telegram_id.return_value = User(
+        repo.get_user.return_value = User(
             telegram_id=dto.telegram_id,
             username=dto.username,
             first_name=dto.first_name,
             last_name=dto.last_name,
         )
         result = await use_case.execute(dto)
-        repo.save.assert_not_awaited()
+        repo.save_user.assert_not_awaited()
         assert result.telegram_id == dto.telegram_id

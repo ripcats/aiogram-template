@@ -7,6 +7,7 @@ from app.application.dto.user import UserResponseDTO
 from app.application.interfaces.cache import ICacheService
 from app.application.use_cases.manage_users import (
     BanUserUseCase,
+    GetUserUseCase,
     GetUsersListUseCase,
     UnbanUserUseCase,
 )
@@ -69,14 +70,6 @@ async def _load_users_page(
     result = await get_users.execute(limit=page_size, offset=(page - 1) * page_size)
     total_pages = max(1, (result.total + page_size - 1) // page_size)
     return result.users, total_pages
-
-
-async def _find_user(
-    get_users: GetUsersListUseCase,
-    telegram_id: int,
-) -> UserResponseDTO | None:
-    result = await get_users.execute(limit=200, offset=0)
-    return next((user for user in result.users if user.telegram_id == telegram_id), None)
 
 
 def _menu_text() -> str:
@@ -168,14 +161,14 @@ async def show_users(
 async def show_user(
     callback: CallbackQuery,
     callback_data: OwnerPanelUserOpenCallback,
-    get_users: FromDishka[GetUsersListUseCase],
+    get_user: FromDishka[GetUserUseCase],
     cache: FromDishka[ICacheService],
 ) -> None:
     try:
         if callback.message is None:
             return
 
-        user = await _find_user(get_users, callback_data.telegram_id)
+        user = await get_user.execute(callback_data.telegram_id)
         if user is None:
             await callback.answer(UI.owner.panel.user_not_found, show_alert=True)
             return
@@ -194,7 +187,7 @@ async def show_user(
 async def handle_user_action(
     callback: CallbackQuery,
     callback_data: OwnerPanelUserActionCallback,
-    get_users: FromDishka[GetUsersListUseCase],
+    get_user: FromDishka[GetUserUseCase],
     ban_user: FromDishka[BanUserUseCase],
     unban_user: FromDishka[UnbanUserUseCase],
     cache: FromDishka[ICacheService],
@@ -216,7 +209,7 @@ async def handle_user_action(
             logger.info("owner.unban", target=callback_data.telegram_id)
             await callback.answer(UI.callback_answers.action_unbanned)
 
-        user = await _find_user(get_users, callback_data.telegram_id)
+        user = await get_user.execute(callback_data.telegram_id)
         if user is None:
             await callback.answer(UI.owner.panel.user_not_found, show_alert=True)
             return

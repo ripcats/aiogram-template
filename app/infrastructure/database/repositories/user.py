@@ -13,14 +13,14 @@ class SqlAlchemyUserRepository(IUserRepository):
     def __init__(self, session: AsyncSession) -> None:
         self._session = session
 
-    async def get_by_telegram_id(self, telegram_id: int) -> User | None:
+    async def get_user(self, telegram_id: int) -> User | None:
         result = await self._session.execute(
             select(UserModel).where(UserModel.telegram_id == telegram_id)
         )
         model = result.scalar_one_or_none()
         return _to_entity(model) if model else None
 
-    async def get_all(self, limit: int = 50, offset: int = 0) -> list[User]:
+    async def list_users(self, limit: int = 50, offset: int = 0) -> list[User]:
         result = await self._session.execute(
             select(UserModel)
             .order_by(UserModel.created_at.desc())
@@ -29,7 +29,7 @@ class SqlAlchemyUserRepository(IUserRepository):
         )
         return [_to_entity(m) for m in result.scalars().all()]
 
-    async def save(self, user: User) -> User:
+    async def save_user(self, user: User) -> User:
         stmt = (
             insert(UserModel)
             .values(
@@ -71,7 +71,7 @@ class SqlAlchemyUserRepository(IUserRepository):
         )
         return result.scalar_one_or_none() is not None
 
-    async def count(self) -> int:
+    async def count_users(self) -> int:
         result = await self._session.execute(select(func.count(UserModel.id)))
         return result.scalar_one()
 
