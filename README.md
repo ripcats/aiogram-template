@@ -13,7 +13,6 @@
 [![Docker](https://img.shields.io/badge/docker-compose-2496ed.svg)](https://www.docker.com/)
 [![Clean Architecture](https://img.shields.io/badge/architecture-clean-111827.svg)](#структура)
 [![Layered](https://img.shields.io/badge/structure-layered-0f766e.svg)](#структура)
-[![Template](https://img.shields.io/badge/template-github-f59e0b.svg)](#использование-как-github-template)
 [![License](https://img.shields.io/badge/license-MIT-black.svg)](./LICENSE)
 
 > Минимум лишнего. Нормальная база для реального бота.
