@@ -4,7 +4,7 @@ WORKDIR /app
 
 FROM base AS builder
 RUN pip install uv
-COPY pyproject.toml README.md ./
+COPY pyproject.toml ./
 COPY app ./app
 RUN uv venv /opt/venv && uv pip install --python /opt/venv/bin/python ".[dev]"
 

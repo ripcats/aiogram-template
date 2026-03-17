@@ -2,7 +2,6 @@
 name = "aiogram-template"
 version = "0.1.0"
 description = "Production-ready Telegram bot template — Clean Architecture + aiogram 3"
-readme = "README.md"
 requires-python = ">=3.12"
 authors = [
     { name = "Evgeny Gerber", email = "pm@c8evgeny.ru" }
